@@ -1,23 +1,49 @@
 :root {
-  --primary-color: #7f5af0;
-  --primary-hover: #6c4fd1;
-  --success-color: #2cb67d;
-  --error-color: #ff5470;
-  --text-color: #ffffff;
-  --text-light: #94a1b2;
-  --bg-color: #16161a;
-  --border-color: #2b2c34;
-  --border-radius: 10px;
-  --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  /* ألوان الوضع النهاري */
+  --primary-color: #4361ee;
+  --primary-hover: #3a56d4;
+  --success-color: #4cc9f0;
+  --error-color: #f72585;
+  --text-color: #2b2d42;
+  --text-light: #8d99ae;
+  --bg-color: #ffffff;
+  --border-color: #edf2f4;
+  --border-radius: 8px;
+  --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   --transition: all 0.3s ease;
+
+  /* متغيرات إضافية للتحكم */
+  --mode-transition: background 0.5s ease, color 0.3s ease;
+  --card-bg: #ffffff;
+  --input-bg: #ffffff;
 }
 
+/* نظام Dark Mode الذكي */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary-color: #4895ef;
+    --primary-hover: #3a7bc8;
+    --success-color: #4cc9f0;
+    --error-color: #f72585;
+    --text-color: #f8f9fa;
+    --text-light: #adb5bd;
+    --bg-color: #121212;
+    --border-color: #333333;
+    --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    --card-bg: #1e1e1e;
+    --input-bg: #2d2d2d;
+  }
+}
+
+/* تحسينات عامة */
 .editor-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
   background-color: var(--bg-color);
   color: var(--text-color);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: var(--mode-transition);
 }
 
 .editor-container.loading {
@@ -26,11 +52,11 @@
   align-items: center;
   justify-content: center;
   min-height: 300px;
+  gap: 1rem;
 }
 
 .loading-spinner {
   font-size: 2rem;
-  margin-bottom: 1rem;
   animation: spin 1s linear infinite;
 }
 
@@ -57,6 +83,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  font-size: 0.9rem;
 }
 
 .alert.error {
@@ -79,11 +106,12 @@
 }
 
 .form-section {
-  background-color: #1a1a1d;
+  background-color: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
   padding: 1.5rem;
   box-shadow: var(--box-shadow);
+  transition: var(--mode-transition);
 }
 
 .form-section h2 {
@@ -92,6 +120,7 @@
   color: var(--primary-color);
   padding-bottom: 0.5rem;
   border-bottom: 1px solid var(--border-color);
+  text-transform: capitalize;
 }
 
 .form-group {
@@ -102,55 +131,79 @@
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--text-color);
 }
 
-.radio-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.radio-option {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  cursor: pointer;
-  padding: 0.5rem;
-  border-radius: var(--border-radius);
-  transition: var(--transition);
-}
-
-.radio-option:hover {
-  background-color: rgba(67, 97, 238, 0.05);
-}
-
-.radio-option input[type="radio"] {
-  accent-color: var(--primary-color);
-  width: 1.1em;
-  height: 1.1em;
-}
-
-.form-select {
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="url"],
+select,
+textarea {
   width: 100%;
   padding: 0.75rem;
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
-  background-color: #1a1a1d;
+  background-color: var(--input-bg);
   color: var(--text-color);
-  font-size: 1rem;
+  font-size: 0.9rem;
   transition: var(--transition);
 }
 
-.form-select:focus {
+input:focus,
+select:focus,
+textarea:focus {
   outline: none;
   border-color: var(--primary-color);
   box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+}
+
+.array-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding: 0.75rem;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: var(--border-radius);
+  transition: var(--mode-transition);
+}
+
+.array-item {
+  flex: 1;
+  min-width: 120px;
+}
+
+.array-item label {
+  font-size: 0.8rem;
+  color: var(--text-light);
+}
+
+.array-group button {
+  background: none;
+  border: none;
+  color: var(--error-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0 0.5rem;
+}
+
+.array-group button:hover {
+  color: var(--error-color);
+  opacity: 0.8;
 }
 
 .form-actions {
   display: flex;
   justify-content: flex-end;
   margin-top: 1.5rem;
+  position: sticky;
+  bottom: 20px;
+  background-color: var(--bg-color);
+  padding: 1rem 0;
+  z-index: 10;
 }
 
 .save-button {
@@ -181,6 +234,75 @@
   animation: spin 1s linear infinite;
 }
 
+button[type="button"] {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-top: 0.5rem;
+}
+
+button[type="button"]:hover {
+  background-color: var(--primary-hover);
+}
+
+/* زر تبديل الوضع اليدوي */
+.dark-mode-toggle {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: var(--box-shadow);
+  transition: var(--transition);
+  border: none;
+}
+
+.dark-mode-toggle:hover {
+  background-color: var(--primary-hover);
+  transform: scale(1.1);
+}
+
+/* تحسينات للوضع الداكن */
+@media (prefers-color-scheme: dark) {
+  .array-group {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .alert {
+    border-left-color: currentColor;
+  }
+
+  .alert.error {
+    background-color: rgba(247, 37, 133, 0.15);
+  }
+
+  .alert.success {
+    background-color: rgba(76, 201, 240, 0.15);
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    box-shadow: 0 0 0 2px rgba(72, 149, 239, 0.5);
+  }
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .editor-container {
@@ -190,22 +312,16 @@
   .form-grid {
     grid-template-columns: 1fr;
   }
-}
 
-header {
-  background-color: #1a1a1d;
-  padding: 1rem 2rem;
-  border-bottom: 1px solid var(--border-color);
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 1.25rem;
-  font-weight: 600;
-}
+  .array-group {
+    flex-direction: column;
+  }
 
-header span {
-  font-size: 1rem;
-  font-weight: 400;
-  color: var(--text-light);
+  .dark-mode-toggle {
+    bottom: 10px;
+    left: 10px;
+    width: 40px;
+    height: 40px;
+    font-size: 0.8rem;
+  }
 }

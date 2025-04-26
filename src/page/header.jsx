@@ -1,35 +1,35 @@
-import React,{useState} from "react";
+import React from "react";
 import { FiHome, FiEdit } from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
-const Header = ({ lastUpdated }) => {
+const Header = () => {
   const navigate = useNavigate();
-  const [time, setTime] = useState(new Date().toLocaleTimeString())
+  const location = useLocation();
+  const time = new Date().toLocaleTimeString();
 
-  
-  
+  const links = [
+    { path: "/", label: "Dashboard", icon: <FiHome className="nav-icon" /> },
+    { path: "/editor", label: "Editor", icon: <FiEdit className="nav-icon" /> },
+  ];
 
   return (
     <header className="dashboard-header">
       <div className="header-content">
         <div className="header-title">
-          <h1>Analytics Dashboard</h1>
-          {time && (
-            <span className="last-updated">
-              Last updated: {time}
-            </span>
-          )}
+          <span className="last-updated">Last updated: {time}</span>
         </div>
 
         <nav className="header-nav">
-          <a href="#dashboard" className="nav-link active">
-            <FiHome className="nav-icon" />
-            Dashboard
-          </a>
-          <a className="nav-link" onClick={() => navigate("/editor")}>
-            <FiEdit className="nav-icon" />
-            Editor
-          </a>
+          {links.map(({ path, label, icon }) => (
+            <a
+              key={path}
+              onClick={() => navigate(path)}
+              className={`nav-link ${location.pathname === path ? "active" : ""}`}
+            >
+              {icon}
+              {label}
+            </a>
+          ))}
         </nav>
       </div>
     </header>
